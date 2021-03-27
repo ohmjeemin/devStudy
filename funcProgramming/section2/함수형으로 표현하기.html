@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let users = [
+        { id: 1, name: 'ID', age:36} ,
+        { id: 2, name: 'BJ', age:32} ,
+        { id: 3, name: 'JM', age:27} ,
+        { id: 4, name: 'PJ', age:25} ,
+        { id: 5, name: 'HA', age:26} ,
+        { id: 6, name: 'JE', age:31} ,
+        { id: 7, name: 'JI', age:33} ,
+        { id: 7, name: 'MP', age:23}
+    ];
+
+    //1. 명령형 코드
+    //1. 30세 이상인 USERS 를 거른다.
+    let temp_users = [];
+    for( let i=0; i<users.length; i++) {
+        if (users[i].age>30) {
+            temp_users.push(users[i]);
+        }
+    }
+    console.log(temp_users);
+
+    //2. 30세 이상인 users의 names를 수집한다.
+    let names =[];
+    for(let i=0; i<temp_users.length; i++) {
+        names.push(temp_users[i].name);
+    }
+    console.log(names);
+
+    //3. 30세 미만인 users를 거른다.
+    let temp_users2 =  [];
+    for (let i=0; i<users.length; i++) {
+        if(users[i].age<30) {
+            temp_users2.push(users[i]);
+        }
+    }
+    console.log(temp_users2);
+
+    //4. 30세 미만인 users의 age를 수집한다.
+    let ages =[];
+    for(let i=0; i<temp_users2.length; i++) {
+        ages.push(temp_users2[i].age);
+    }
+    console.log(ages);
+
+    // 1과 3은 조건문이 다르다. ->
+    // 2. _filter 로 리팩토링
+    function _filter(users, predi) {
+        let new_list = [];
+        for( let i=0; i<users.length; i++) {
+          if(predi(users[i])) {
+              new_list.push(users[i]);
+          }
+
+            // if (users[i].age>30) { // 이 부분이 중복-> 함수로 받자(predi)
+            //     temp_users.push(users[i]);
+            // }
+        }
+        // console.log()는 외부에 영향을 미침
+        return new_list;
+    }
+
+    // 데이터가 어떻게 생겼는지 볼 수 없다 -> 재사용성 극대화
+    function _map(list, mapper) {
+        let new_list =[]; //새로운 값
+        for(let i=0; i<list.length; i++) {
+            new_list.push(mapper(list[i]));
+        }
+        return new_list;
+    }
+
+    // users를 쓸 수 도 있고
+    let over_30 = _filter(users, function(user) {return user.age >= 30;});
+    console.log(over_30);
+
+    // 30넘는 users만 쓸 수도 있고
+    let name2 =_map(over_30, function(user){
+      return user.name;
+    });
+    console.log(name2);
+
+    // 30 미만 users도 쓸 수도 이꼬
+    let under_30 = _filter(users, function(user) {return user.age <30;});
+    console.log(under_30);
+
+    let ages2 = _map(under_30, function(user) {return user.age;});
+    console.log(ages2);
+
+
+    // 대입문을 없앨 수 있다.
+    // 아래처럼 아예 인자를 안에 넣으면됨
+    console.log("new...",
+    _map(
+        _filter(users, function(user) { return user.age>=30; }),
+        function(user) { return user.name; }
+    )
+    );
+
+
+
+
+    // console.log("1",
+    //     _filter(users, function(user) { return user.age >= 30; })
+    // );
+    // console.log("2",
+    //     _filter(users, function(user) { return user.age < 30; })
+    // );
+
+
+    // _filter: 응용형 함수: 함수가 함수를 받아서 원하는 시점에 해당하는 함수가 알고있는 인자를 적용하는것
+    //        :고차함수 :함수 안에서 함수를 받는 것
+
+    // console.log(
+    //     _filter([1,2,3,4], function(num) {return num%2;}));
+</script>
+</body>
+</html>
