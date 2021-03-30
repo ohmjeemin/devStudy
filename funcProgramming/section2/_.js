@@ -25,3 +25,5 @@ function _each(list, iter) {
     return list;
 }
 
+// curryr이 적용된 map과 filter
+var _map = _curryr(_map), _filter = _curryr(_filter);
