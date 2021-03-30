@@ -25,14 +25,14 @@
             temp_users.push(users[i]);
         }
     }
-    console.log(temp_users);
+    // console.log(temp_users);
 
     //2. 30세 이상인 users의 names를 수집한다.
     let names =[];
     for(let i=0; i<temp_users.length; i++) {
         names.push(temp_users[i].name);
     }
-    console.log(names);
+    // console.log(names);
 
     //3. 30세 미만인 users를 거른다.
     let temp_users2 =  [];
@@ -41,14 +41,14 @@
             temp_users2.push(users[i]);
         }
     }
-    console.log(temp_users2);
+    // console.log(temp_users2);
 
     //4. 30세 미만인 users의 age를 수집한다.
     let ages =[];
     for(let i=0; i<temp_users2.length; i++) {
         ages.push(temp_users2[i].age);
     }
-    console.log(ages);
+    // console.log(ages);
 
     // 1과 3은 조건문이 다르다. ->
     // 2. _filter 로 리팩토링
@@ -84,23 +84,22 @@
     let name2 =_map(over_30, function(user){
       return user.name;
     });
-    console.log(name2);
+    // console.log(name2);
 
     // 30 미만 users도 쓸 수도 이꼬
     let under_30 = _filter(users, function(user) {return user.age <30;});
-    console.log(under_30);
+    // console.log(under_30);
 
     let ages2 = _map(under_30, function(user) {return user.age;});
-    console.log(ages2);
+    // console.log(ages2);
 
 
     // 대입문을 없앨 수 있다.
     // 아래처럼 아예 인자를 안에 넣으면됨
-    console.log("new...",
+    // console.log("new...",
     _map(
         _filter(users, function(user) { return user.age>=30; }),
         function(user) { return user.name; }
-    )
     );
 
 
@@ -119,6 +118,39 @@
 
     // console.log(
     //     _filter([1,2,3,4], function(num) {return num%2;}));
+
+
+
+    //2021-03-30
+    // 3. 커링- 함수와 인자를 다루는 기법, 모든 인자가 다 채워지면 함수 실행
+    // 1. _curry, _curryr
+    function _curry(fn) { // 인자로 본체함수 받고, _curry 실행하면 바로 _curry리턴 함수 실행,
+        return function(a,b) { //인자 개수 상관없음
+            return (arguments.length===2) ? fn(a,b) : function(b) { return fn(a,b); } // 인자가 두개가 아니면 함수 호출
+        }
+    } // 함수가 함수를 대신 실행하거나 조합하는것을 함수형 프로그래밍이라고 한다.
+
+    let add = _curry(function(a,b) {
+        return a+b;
+    })
+    let add10 = add(10); //미리한번 적용해서 변수에 함수를 넣음  //하나만 인자를 적용하면 함수를 리턴함
+    console.log(add10(5));
+
+    console.log(add(10)(5));
+    console.log(add(15,2));
+
+    let sub = _curry(function(a,b) {
+       return a - b;
+    });
+    console.log( sub(10,5));
+    let sub10 = sub(10);
+    console.log('sub10(5)..> ',sub10(5));
+
+
+
+
+
+
 </script>
 </body>
 </html>
