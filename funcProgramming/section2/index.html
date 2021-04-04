@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //일급 함수
+    //01. 함수를 변수에 담을 수 있다.
+    let f1 = function(a) {return a*a};
+    console.log(f1);
+
+    //02. 함수를 인자에 담을 수 있다.
+    function f3(f) {
+        return f();
+    }
+    console.log( f3(function(){return 20; }) );
+
+    //03. add_maker
+
+    function add_maker(a) {
+        return function (b) { //23~25가 클로저 => 이 함수는 a를 기억하면서 a+b를 하는 클로저다.
+            return a + b;  //이 함수 내부에서만 a를 참조만 할뿐 변경하지는 않음. 항상 동일한 값을 더하고 있다.
+        }
+    }
+
+    let add10 = add_maker(10);
+    console.log( add10(20) ) ;
+
+    let add5 = add_maker(5);
+    let add15 = add_maker(15);
+    console.log(add5(5));
+    console.log(add15(5));
+
+    //04. 순수한 함수를 만들고 조합한다
+    function f4(f1, f2, f3) {
+        return f3(f1() + f2());
+    }
+    console.log(
+    f4(
+        function() { return 2;},
+        function() { return 1;},
+        function(a) {return a*a;} //각각의 순수한 함수들을 조합히고
+        )
+    );
+</script>
+</body>
+</html>

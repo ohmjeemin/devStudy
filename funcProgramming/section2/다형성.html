@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    //3. each만들기
+        //1. _each로 _map, _filter 중복 제거
+        //2. 외부 다형성
+            //1. array_like, arguments, document.querySelectorAll
+            // filter, map은 순수함수가 아니라 상태에 따라 결과가 달라지는 메서드이다
+            // 메서드 : 해당 클래스에 정의되기 때문에 해당 클래스에만 써야함.
+            // array-like 객체 (ex. jQuery객체)
+            // $('body') , documnet.querySelectorAll('body') 이렇게 하면 배열처럼 보여지지만 배열이 아니다. (constructor가 NodeList임)
+            // 아래는 오류가 남. 배열이 아니기 때문에
+            document.querySelectorAll('body').map(function(node){
+                return node.nodeName;
+            })
+            // 우리가 만든 _map함수는 들어오는 인자가 length가 있고 index가 있으면 사용가능하다.
+            //객체지향은 평가기시점이 중요해서. 일단 data가 있어야지 실행된다. 위에서 Array가 아니면 오류가 나는 것처럼.. 함수형프로그래밍은 평가시점이 유연하다.
+
+        //3. 내부다형성
+         //1. predi, iter, mapper 와 같은 보조함수가 책임을 진다.
+            _map([1,2,3,4], function (v) {
+                return v+10;
+            });
+        // callback함수로 퉁치지 말고, 보조함수의 이름을 따로 정해주는게 좋음
+        // 함수형 프로그래밍에서는 두번째 함수가 어떤 역할을 하냐에 따라 다양한 이름을 갖는게 좋다
+        // callback-> 어떤일을 다하고 맨끝에 돌려줄 때
+</script>
+</body>
+</html>
